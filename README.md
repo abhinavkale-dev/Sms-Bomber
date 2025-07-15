@@ -7,7 +7,7 @@ A cross-platform tool for sending multiple SMS verification requests to a target
 
 ## 📱 Example
 
-![SMS Bomber in action](Example.jpg)
+![SMS Bomber in action](Example.jpeg)
 
 *Screenshot showing SMS Bomber sending verification requests to a target number*
 
