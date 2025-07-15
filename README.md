@@ -33,6 +33,7 @@ This tool is provided for **EDUCATIONAL PURPOSES ONLY**. SMS bombing can be cons
 - Python 3.6 or higher
 - Chrome browser installed
 - Internet connection
+- For Python 3.12+: setuptools package (included in requirements.txt)
 
 ## 📦 Installation
 
@@ -113,6 +114,7 @@ The script provides real-time feedback:
 - **Low success rate**: Try increasing `BATCH_COOLDOWN` values
 - **Element not found errors**: The website may have changed; update the selectors
 - **Rate limiting**: Try reducing batch size or increasing cooldown period
+- **Missing distutils module error**: This occurs on Python 3.12+ because distutils was removed from the standard library. Install setuptools: `pip install setuptools` or simply run `pip install -r requirements.txt`
 
 ## 📝 License
 
