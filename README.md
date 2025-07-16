@@ -27,6 +27,30 @@ This tool is provided for **EDUCATIONAL PURPOSES ONLY**. SMS bombing can be cons
 - Batch processing with cooldown periods to avoid rate limiting
 - Automatic browser fingerprint randomization
 - Detailed progress tracking and statistics
+- **Multi-site support** - Rotates between multiple Indian websites for OTP requests
+
+## 🌐 Supported Sites
+
+The script currently supports the following Indian websites (processed in sequence):
+- Flipkart
+- Myntra
+- Cleartrip
+- Meesho
+
+Sites are processed in a specific order (Flipkart → Myntra → Cleartrip → Meesho), ensuring a consistent rotation pattern for each attempt.
+
+More sites can be easily added by following the template in the `SUPPORTED_SITES` list and adding them to the `SITE_SEQUENCE` list.
+
+## 🔄 How It Works
+
+1. The script opens multiple Chrome browser instances
+2. Each browser processes sites in a specific sequence (Flipkart → Myntra → Cleartrip → Meesho)
+3. For each site, it navigates to the login page
+4. It enters the target phone number in the login field
+5. It clicks the appropriate button to send a verification SMS
+6. It verifies if the OTP was actually sent by checking for confirmation messages
+7. After completing a batch, it takes a cooldown period
+8. It repeats this process for the configured number of batches
 
 ## 🔧 Requirements
 
@@ -71,63 +95,19 @@ Open `sms_bomber.py` in a text editor and modify these variables at the top of t
 ```python
 # Configure these variables
 PHONE_NUMBER = "1234567890"  # <-- Put the target phone number here
-BATCH_SIZE = 50              # <-- Number of SMS to send per batch
+BATCH_SIZE = 40              # <-- Number of SMS to send per batch (optimized for reliability)
 NUMBER_OF_BATCHES = 3        # <-- Number of batches to send
-MAX_CONCURRENT_BROWSERS = 5  # <-- Number of parallel browsers per batch
-BATCH_COOLDOWN = (120, 180)  # <-- Cooldown between batches in seconds (min, max)
+MAX_CONCURRENT_BROWSERS = 8  # <-- Number of parallel browsers per batch (balanced for stability)
+BATCH_COOLDOWN = (90, 120)   # <-- Cooldown between batches in seconds (min, max)
 ```
 
-## 🚀 Usage
+### Headless Mode
 
-Run the script using Python:
+By default, the script runs with visible browser windows. If you want to run in headless mode for better performance (no visible browser windows), uncomment this line in the `generate_fingerprint_options()` function:
 
-```bash
-python sms_bomber.py
+```python
+# Headless mode for better performance (uncomment if needed)
+# options.add_argument('--headless')
 ```
 
-The program will:
-1. Start multiple browser instances in parallel
-2. Send SMS verification requests to the target number
-3. Take a cooldown break between batches
-4. Display detailed progress and statistics
-
-## 📊 Monitoring
-
-The script provides real-time feedback:
-- Current batch and attempt progress
-- Success/failure for each attempt
-- Countdown timer between batches
-- Summary statistics after completion
-
-## 🔄 How It Works
-
-1. The script opens multiple Chrome browser instances
-2. Each browser navigates to Flipkart's login page
-3. It enters the target phone number in the login field
-4. It clicks the "Request OTP" button to send a verification SMS
-5. After completing a batch, it takes a cooldown period
-6. It repeats this process for the configured number of batches
-
-## 🛠️ Troubleshooting
-
-- **Browser crashes**: Try reducing `MAX_CONCURRENT_BROWSERS`
-- **Low success rate**: Try increasing `BATCH_COOLDOWN` values
-- **Element not found errors**: The website may have changed; update the selectors
-- **Rate limiting**: Try reducing batch size or increasing cooldown period
-- **Missing distutils module error**: This occurs on Python 3.12+ because distutils was removed from the standard library. Install setuptools: `pip install setuptools` or simply run `pip install -r requirements.txt`
-
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📞 Contact
-
-If you have any questions or feedback, please open an issue on GitHub.
-
----
-
-Remember: Use responsibly and ethically. Only use on phone numbers you own or have explicit permission to test. 
+Note that some websites might detect and block headless browsers, so visible mode is often more reliable but uses more system resources.
